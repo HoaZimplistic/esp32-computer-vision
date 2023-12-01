@@ -79,6 +79,28 @@ namespace Eloquent {
                                     <img id="feed" />
                                     <div id="grid-container"></div>
                                 </div>
+                                <div id="param">
+                                    <form action="/get">
+                                        y: <input type="text" name="y">
+                                        <input type="submit" value="Submit">
+                                    </form>
+                                    <form action="/get">
+                                        cb: <input type="text" name="cb">
+                                        <input type="submit" value="Submit">
+                                    </form>
+                                    <form action="/get">
+                                        cr: <input type="text" name="cr">
+                                        <input type="submit" value="Submit">
+                                    </form>
+                                    <form action="/get">
+                                        Tolerance: <input type="text" name="Tolerance">
+                                        <input type="submit" value="Submit">
+                                    </form>
+                                    <form action="/get">
+                                        Min. area: <input type="text" name="Min. area">
+                                        <input type="submit" value="Submit">
+                                    </form>
+                                </div>
                             </div>
                          )===");
 
