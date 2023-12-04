@@ -1,5 +1,3 @@
-// 21_Color_Blob_Detection_HTTP.ino
-
 /**
  * Run an HTTP server to debug the ColorBlobDetector
  */
@@ -23,8 +21,8 @@ Http::ColorBlobDetectorHTTP http(cam, decoder, detector);
 // ===========================
 // Enter your WiFi credentials
 // ===========================
-const char* ssid = "Hoa";
-const char* password = "6uifMinhHo@f";
+const char* ssid = "your wifi name";
+const char* password = "your password";
 
 void setup() {
     Serial.begin(115200);
@@ -95,6 +93,9 @@ void setup() {
 void loop() {
     http.handle();
 
+    /**
+     * Display blob positions
+     */
     if (detector.detect(decoder)) {
         Serial.print("Blob detected from top-left ");
         Serial.print(detector.blob.top);
@@ -107,5 +108,59 @@ void loop() {
         Serial.print("Blob detection run in ");
         Serial.print(detector.getExecutionTimeInMillis());
         Serial.println("ms");
+    }
+
+    /**
+     * Configuration through Serial bus
+     */
+    if (Serial.available() > 0) {
+      // read string:
+      String teststr = Serial.readString();
+      teststr.trim();
+      // say what you got:
+      Serial.print("I received: ");
+      Serial.println (teststr);
+
+      char s [100];
+      strcpy (s, teststr.c_str ());
+      char * token = strtok(s, " ");
+//      Serial.println (atoi(token));
+
+      switch (atoi(token)) {
+        case 1:
+          token = strtok(NULL, " ");
+          detector.set("y", atoi(token));
+          Serial.print("y is set to :");
+          Serial.println(atoi(token));
+          
+          token = strtok(NULL, " ");
+          detector.set("cb", atoi(token));
+          Serial.print("cb is set to :");
+          Serial.println(atoi(token));
+
+          token = strtok(NULL, " ");
+          detector.set("cr", atoi(token));
+          Serial.print("cr is set to :");
+          Serial.println(atoi(token));
+
+          break;
+          
+        case 2:
+          token = strtok(NULL, " ");
+          detector.set("tol", atoi(token));
+          Serial.print("Tol is set to :");
+          Serial.println(atoi(token));
+          break;
+
+        case 3:
+          token = strtok(NULL, " ");
+          detector.set("min-area", atoi(token));
+          Serial.print("Min area is set to :");
+          Serial.println(atoi(token));
+          break;
+          
+        default:
+          break;
+      }
     }
 }
