@@ -3,6 +3,7 @@
  */
 #define MAX_RESOLUTION_VGA
 #define MAX_RECURSION_DEPTH 13
+#define FLASH_GPIO_NUM 4
 
 #include "esp32cam.h"
 #include "esp32cam/JpegDecoder.h"
@@ -15,6 +16,7 @@ Cam cam;
 JpegDecoder decoder;
 Applications::ColorBlobDetector detector(0, 0, 0); // will configure from the URL
 Http::ColorBlobDetectorHTTP http(cam, decoder, detector);
+bool logging = false;
 
 // http://esp32cam.local/?y=61&cb=37&cr=28
 
@@ -87,6 +89,9 @@ void setup() {
 //    s->set_vflip(s, 0);          // 0 = disable , 1 = enable
 //    s->set_dcw(s, 1);            // 0 = disable , 1 = enable
 //    s->set_colorbar(s, 0);       // 0 = disable , 1 = enable
+
+   // Flash
+   pinMode(FLASH_GPIO_NUM, OUTPUT);
 }
 
 
@@ -96,7 +101,7 @@ void loop() {
     /**
      * Display blob positions
      */
-    if (detector.detect(decoder)) {
+    if (detector.detect(decoder) && logging) {
         Serial.print("Blob detected from top-left ");
         Serial.print(detector.blob.top);
         Serial.print(", ");
@@ -142,7 +147,6 @@ void loop() {
           detector.set("cr", atoi(token));
           Serial.print("cr is set to :");
           Serial.println(atoi(token));
-
           break;
           
         case 2:
@@ -158,7 +162,18 @@ void loop() {
           Serial.print("Min area is set to :");
           Serial.println(atoi(token));
           break;
-          
+
+        case 4:
+          digitalWrite(FLASH_GPIO_NUM, !digitalRead(FLASH_GPIO_NUM));
+          Serial.print("Flash is set to :");
+          Serial.println(digitalRead(FLASH_GPIO_NUM));
+          break;
+
+        case 5:
+          logging = !logging;
+          Serial.print("Log is set to :");
+          Serial.println(logging);
+          break;
         default:
           break;
       }

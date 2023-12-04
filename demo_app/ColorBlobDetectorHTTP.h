@@ -79,43 +79,22 @@ namespace Eloquent {
                                     <img id="feed" />
                                     <div id="grid-container"></div>
                                 </div>
-                                <div id="param">
-                                    <form action="/get">
-                                        y: <input type="text" name="y">
-                                        <input type="submit" value="Submit">
-                                    </form>
-                                    <form action="/get">
-                                        cb: <input type="text" name="cb">
-                                        <input type="submit" value="Submit">
-                                    </form>
-                                    <form action="/get">
-                                        cr: <input type="text" name="cr">
-                                        <input type="submit" value="Submit">
-                                    </form>
-                                    <form action="/get">
-                                        Tolerance: <input type="text" name="Tolerance">
-                                        <input type="submit" value="Submit">
-                                    </form>
-                                    <form action="/get">
-                                        Min. area: <input type="text" name="Min. area">
-                                        <input type="submit" value="Submit">
-                                    </form>
-                                </div>
                             </div>
                          )===");
 
-                         addHTML(F("<pre>Target YCbCr: ("));
+                         addHTML(F("<pre>1. Target YCbCr: ("));
                          addHTML(String(_detector->getLuma()));
                          addHTML(F(", "));
                          addHTML(String(_detector->getCb()));
                          addHTML(F(", "));
                          addHTML(String(_detector->getCr()));
-                         addHTML(F(")\nTollerance: "));
+                         addHTML(F(")\n2. Tollerance: "));
                          addHTML(String(_detector->getTol()));
-                         addHTML(F("\nMin. area: "));
+                         addHTML(F("\n3. Min. area: "));
                          addHTML(String(_detector->getMinArea()));
+                         addHTML(F("\n4. Flash "));
+                         addHTML(F("\n5. Log "));
                          addHTML(F("</pre>"));
-
                          flush();
                     });
 
